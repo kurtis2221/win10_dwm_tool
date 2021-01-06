@@ -21,3 +21,7 @@ Tested with Windows 10 20H2.
 - If somehow get a black screen while playing without DWM just try pressing ALT+TAB and ALT+F4 these keys still work!
 - If you get lucky and close this program everything will be restored to normal.
 - Some games may not work while DWM is disabled. UWP apps can't work without it!
+## Sources
+https://github.com/Ingan121/DWMKiller
+
+https://www.youtube.com/watch?v=cutsuVbvork
