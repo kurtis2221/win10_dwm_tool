@@ -17,7 +17,7 @@ Tested with Windows 10 20H2.
 ## Useful info
 - Do not try to close anything other than this program while DWM is disabled, it will remain in the process list and may cause a black screen.
 - You might need to add more processes to the win10_dwm_tool.ini file if you get a black screen after disabling DWM.
-- All UWP apps must be closed before disabling DWM!
+- Close UWP apps before disabling DWM! Otherwise you will experience graphics glitches.
 - If somehow get a black screen while playing without DWM just try pressing ALT+TAB and ALT+F4 these keys still work!
 - If you get lucky and close this program everything will be restored to normal.
 - Some games may not work while DWM is disabled. UWP apps can't work without it!
