@@ -31,7 +31,7 @@ Tested with Windows 10 21H2.
 ## Files
 - win10_dwm_tool.ini - Contains process names that need to be disabled. New entries can be added if you get a black screen.
 - win10_dwm_tool_hk.ini - Contains ON and OFF hotkeys. If it can't be loaded, it will disable hotkeys.
-- win10_dwm_tool.ini - Contains 2 checkbox settings for Windows 11.
+- win11_dwm_tool.ini - Contains 2 checkbox settings for Windows 11.
 - dwm_off.wav - DWM hotkey sound for tuning it off. If it can't load the file, no sound will be made when pressing the hotkey.
 - dwm_on.wav - DWM hotkey sound for tuning it on. If it can't load the file, no sound will be made when pressing the hotkey.
 
