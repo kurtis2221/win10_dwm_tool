@@ -3,18 +3,40 @@ using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Media;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace win10_dwm_tool
 {
     public partial class Form1 : Form
     {
+        //Environment vars
+        internal readonly static string ENV_WINDOWS = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        internal readonly static string ENV_SYSTEM32 = Environment.GetFolderPath(Environment.SpecialFolder.System);
+
         //Config files
         private const string CONFIG_FILE = "win10_dwm_tool.ini";
         private const string CONFIG_FILE_HK = "win10_dwm_tool_hk.ini";
+        private const string CONFIG_FILE_WIN11 = "win11_dwm_tool.ini";
 
         //Sound files (optional)
         private const string SNDFILE_DWM_ON = "dwm_on.wav";
         private const string SNDFILE_DWM_OFF = "dwm_off.wav";
+
+        //Windows 10
+        private const string PROC_DWM = "dwm";
+        private const string PROC_WINLOGON = "winlogon";
+        //
+        private const string FILE_DWM = "dwm.exe";
+        internal const string FILE_EXPLORER = "explorer.exe";
+        internal const string FILE_CMD = "cmd.exe";
+
+        //Windows 11
+        private const string FILE_DWMINIT = "dwminit.dll";
+        private const string FILE_WINDOWS_UI_LOGON = "Windows.UI.Logon.dll";
+
+        //TrustedInstaller user
+        private const string USER_TRUSTEDINSTALLER = "NT SERVICE\\TrustedInstaller";
 
         //Process list, loaded from config
         private List<string> kill_proc_list = new List<string>();
@@ -29,11 +51,15 @@ namespace win10_dwm_tool
 
         //Console textbox
         private static TextBox st_tb_console;
+        private static CheckBox st_ch_win11_mouse;
+        private static CheckBox st_ch_win11_login;
 
         public Form1()
         {
             InitializeComponent();
             st_tb_console = tb_console;
+            st_ch_win11_mouse = ch_win11_mouse;
+            st_ch_win11_login = ch_win11_login;
             //Process kill list
             LoadConfig(CONFIG_FILE, sr =>
             {
@@ -51,6 +77,12 @@ namespace win10_dwm_tool
                 gkh = new KeyHook.GlobalKeyboardHook();
                 gkh.KeyUp += Gkh_KeyUp;
                 gkh.Hook();
+            });
+            //Windows 11
+            LoadConfig(CONFIG_FILE_WIN11, sr =>
+            {
+                if (sr.Peek() > -1) ch_win11_mouse.Checked = sr.ReadLine() != "0";
+                if (sr.Peek() > -1) ch_win11_login.Checked = sr.ReadLine() != "0";
             });
             //Sounds
             snd_dwm_on = LoadAudio(SNDFILE_DWM_ON);
@@ -134,7 +166,7 @@ namespace win10_dwm_tool
                     return new SoundPlayer(fname);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 WriteToConsole($"Failed to load {fname} file:");
                 WriteToConsole(ex.Message);
@@ -157,19 +189,48 @@ namespace win10_dwm_tool
 
         private void DisableDWM()
         {
-            if (!ProcessHandler.ProcessExists("dwm")) return;
-            ProcessHandler.KillProcess("explorer.exe");
+            if (!ProcessHandler.ProcessExists(PROC_DWM)) return;
+            //Windows 11
+            if (st_ch_win11_mouse.Checked) RenameSystemFile(true, FILE_DWMINIT);
+            if (st_ch_win11_login.Checked) RenameSystemFile(true, FILE_WINDOWS_UI_LOGON);
+            //
+            ProcessHandler.KillProcess(FILE_EXPLORER);
             foreach (string p in kill_proc_list)
                 ProcessHandler.KillProcess(p);
-            ProcessHandler.SuspendProcess("winlogon");
-            ProcessHandler.KillProcess("dwm.exe");
+            ProcessHandler.SuspendProcess(PROC_WINLOGON);
+            ProcessHandler.KillProcess(FILE_DWM);
         }
 
         public static void RestoreDWM()
         {
-            if (ProcessHandler.ProcessExists("dwm")) return;
-            ProcessHandler.ResumeProcess("winlogon");
+            if (ProcessHandler.ProcessExists(PROC_DWM)) return;
+            //Windows 11
+            if (st_ch_win11_mouse.Checked) RenameSystemFile(false, FILE_DWMINIT);
+            if (st_ch_win11_login.Checked) RenameSystemFile(false, FILE_WINDOWS_UI_LOGON);
+            //
+            ProcessHandler.ResumeProcess(PROC_WINLOGON);
             ProcessHandler.StartExplorer();
+        }
+
+        private static void RenameSystemFile(bool input, string fname)
+        {
+            try
+            {
+                //Check if rename is needed
+                string source = Path.Combine(ENV_SYSTEM32, (input ? "" : "_") + fname);
+                if (!File.Exists(source)) return;
+                string target = Path.Combine(ENV_SYSTEM32, (input ? "_" : "") + fname);
+                string cmd = Path.Combine(ENV_SYSTEM32, FILE_CMD);
+                WriteToConsole($"Moving: {fname}");
+                //Rename with Task Scheduler
+                TaskScheduler.RunTask(cmd, $"/C move \"{source}\" \"{target}\"", USER_TRUSTEDINSTALLER);
+                WriteToConsole("OK");
+            }
+            catch (Exception ex)
+            {
+                WriteToConsole($"Failed to move file: {fname}");
+                WriteToConsole(ex.Message);
+            }
         }
 
         public static void ClearConsole()

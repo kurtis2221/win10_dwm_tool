@@ -36,6 +36,8 @@ namespace win10_dwm_tool
             this.tb_run = new System.Windows.Forms.TextBox();
             this.tmr_restore = new System.Windows.Forms.Timer(this.components);
             this.tb_console = new System.Windows.Forms.TextBox();
+            this.ch_win11_mouse = new System.Windows.Forms.CheckBox();
+            this.ch_win11_login = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // bt_dwm_on
@@ -60,7 +62,7 @@ namespace win10_dwm_tool
             // 
             // bt_run
             // 
-            this.bt_run.Location = new System.Drawing.Point(12, 102);
+            this.bt_run.Location = new System.Drawing.Point(12, 125);
             this.bt_run.Name = "bt_run";
             this.bt_run.Size = new System.Drawing.Size(56, 24);
             this.bt_run.TabIndex = 3;
@@ -70,7 +72,7 @@ namespace win10_dwm_tool
             // 
             // tb_run
             // 
-            this.tb_run.Location = new System.Drawing.Point(74, 105);
+            this.tb_run.Location = new System.Drawing.Point(74, 128);
             this.tb_run.Name = "tb_run";
             this.tb_run.Size = new System.Drawing.Size(198, 20);
             this.tb_run.TabIndex = 4;
@@ -88,15 +90,37 @@ namespace win10_dwm_tool
             this.tb_console.Name = "tb_console";
             this.tb_console.ReadOnly = true;
             this.tb_console.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tb_console.Size = new System.Drawing.Size(294, 113);
+            this.tb_console.Size = new System.Drawing.Size(294, 136);
             this.tb_console.TabIndex = 5;
             this.tb_console.TabStop = false;
+            // 
+            // ch_win11_mouse
+            // 
+            this.ch_win11_mouse.AutoSize = true;
+            this.ch_win11_mouse.Location = new System.Drawing.Point(12, 72);
+            this.ch_win11_mouse.Name = "ch_win11_mouse";
+            this.ch_win11_mouse.Size = new System.Drawing.Size(190, 17);
+            this.ch_win11_mouse.TabIndex = 6;
+            this.ch_win11_mouse.Text = "Windows 11 Mouse fix (dwminit.dll)";
+            this.ch_win11_mouse.UseVisualStyleBackColor = true;
+            // 
+            // ch_win11_login
+            // 
+            this.ch_win11_login.AutoSize = true;
+            this.ch_win11_login.Location = new System.Drawing.Point(12, 95);
+            this.ch_win11_login.Name = "ch_win11_login";
+            this.ch_win11_login.Size = new System.Drawing.Size(240, 17);
+            this.ch_win11_login.TabIndex = 6;
+            this.ch_win11_login.Text = "Windows 11 Login fix (Windows.UI.Logon.dll)";
+            this.ch_win11_login.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 141);
+            this.ClientSize = new System.Drawing.Size(584, 161);
+            this.Controls.Add(this.ch_win11_login);
+            this.Controls.Add(this.ch_win11_mouse);
             this.Controls.Add(this.tb_console);
             this.Controls.Add(this.tb_run);
             this.Controls.Add(this.bt_run);
@@ -121,6 +145,8 @@ namespace win10_dwm_tool
         private System.Windows.Forms.TextBox tb_run;
         private System.Windows.Forms.Timer tmr_restore;
         private System.Windows.Forms.TextBox tb_console;
+        private System.Windows.Forms.CheckBox ch_win11_mouse;
+        private System.Windows.Forms.CheckBox ch_win11_login;
     }
 }
 

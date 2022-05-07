@@ -2,11 +2,12 @@
 ## Info
 User friendly and oversimplified tool to enable and disable DWM.
 
-Tested with Windows 10 21H1.
+Tested with Windows 10 21H2.
 ## Warning
 - Using this tool may lock up your system and need to hard restart!
 - Save everyting important before using!
 - Use this tool at your own risk!
+- Has experimental settings for Windows 11. Working, but not tested on Windows 11!
 ## Usage
 ### Normal usage:
 1. Before running it's recommended to open an alternative file manager or a game
@@ -30,6 +31,7 @@ Tested with Windows 10 21H1.
 ## Files
 - win10_dwm_tool.ini - Contains process names that need to be disabled. New entries can be added if you get a black screen.
 - win10_dwm_tool_hk.ini - Contains ON and OFF hotkeys. If it can't be loaded, it will disable hotkeys.
+- win10_dwm_tool.ini - Contains 2 checkbox settings for Windows 11.
 - dwm_off.wav - DWM hotkey sound for tuning it off. If it can't load the file, no sound will be made when pressing the hotkey.
 - dwm_on.wav - DWM hotkey sound for tuning it on. If it can't load the file, no sound will be made when pressing the hotkey.
 
@@ -39,3 +41,7 @@ https://github.com/Ingan121/DWMKiller
 https://www.youtube.com/watch?v=cutsuVbvork
 
 https://www.codeproject.com/Articles/19004/A-Simple-C-Global-Low-Level-Keyboard-Hook
+
+https://github.com/Ingan121/DWMSwitch
+
+https://www.nuget.org/packages/TaskScheduler/

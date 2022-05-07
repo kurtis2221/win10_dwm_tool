@@ -51,11 +51,11 @@ namespace win10_dwm_tool
         {
             try
             {
-                string procname = "explorer.exe";
+                string procname = Form1.FILE_EXPLORER;
                 Form1.WriteToConsole($"Start: {procname}");
                 //It only worked with this on explorer.exe
                 ProcessStartInfo psi = new ProcessStartInfo();
-                psi.FileName = Path.Combine(Environment.GetEnvironmentVariable("windir"), procname);
+                psi.FileName = Path.Combine(Form1.ENV_WINDOWS, procname);
                 psi.UseShellExecute = true;
                 Process.Start(psi);
                 Form1.WriteToConsole("OK");
